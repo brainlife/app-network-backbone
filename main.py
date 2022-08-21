@@ -11,7 +11,6 @@ import numpy as np
 from tqdm import tqdm
 import igraph as ig
 import jgf
-import networkx as nx
 
 # grab backbone related code from backbone.py. THANK YOU aepalakorn (https://github.com/aekpalakorn/python-backbone-network)
 from backbone import disparity_filter, disparity_filter_alpha_cut
