@@ -8,4 +8,4 @@
 # set -x
 
 SINGULARITYENV_PYTHONNOUSERSITE=true
-time singularity exec -e docker://brainlife/python-networks ./main.py config.json
+time singularity exec -e docker://brainlife/python-networks ./main.py
