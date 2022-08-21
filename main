@@ -4,8 +4,8 @@
 #PBS -l walltime=01:00:00
 #PBS -N app-network-backbone
 
-# set -e
-# set -x
+set -e
+set -x
 
 SINGULARITYENV_PYTHONNOUSERSITE=true
 time singularity exec -e docker://brainlife/python-networks ./main.py
