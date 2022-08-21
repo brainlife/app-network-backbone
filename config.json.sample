@@ -1,0 +1,4 @@
+{
+	"network":	"/path/to/input/network.json.gz",
+	"alpha":	"0.05"
+}
