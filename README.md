@@ -2,6 +2,34 @@
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.1-blue.svg)](https://doi.org/10.25663/brainlife.app.289)
 
 # Compute network backbone
+
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+**Extracts the backbone of a weighted structural or functional connectivity network with the disparity filter (Serrano et al. 2009) using networkx and igraph, keeping only statistically significant edges.**
+
+Loads the first network from a JGF network file, computes a disparity-filter significance score (alpha) for every weighted edge and keeps edges whose alpha is below the alpha parameter, saving the backbone as output/network.json.gz. Use it to sparsify dense connectivity matrices before network analysis; edges at nodes with a single connection never pass the cut in the undirected case.
+
+Run it on brainlife.io: [https://doi.org/10.25663/brainlife.app.665](https://doi.org/10.25663/brainlife.app.665)
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `network` | `generic/network` | yes | Weighted network in JGF format (network.json.gz); only the first network in the file is used. |
+
+| Output | Datatype | Description |
+|---|---|---|
+| `output` | `generic/network` | Backbone network (network.json.gz) containing only the edges that pass the disparity-filter threshold. |
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `alpha` | number | `0.05` | Disparity-filter significance threshold: an edge is kept when its alpha score is below this value (smaller keeps fewer edges). |
+
+Runtime: container `brainlife/python-networks`; 1 CPUs.
+
+Please cite:
+- Serrano MA, Boguna M, Vespignani A. Extracting the multiscale backbone of complex weighted networks. PNAS 106(16):6483-6488 (2009).
+
+<!-- brainlife-app:end -->
+
 App to generate the backbone network from either a structural or functional network.
 
 ### Authors
