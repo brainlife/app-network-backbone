@@ -1,115 +1,149 @@
-[![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
-[![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.1-blue.svg)](https://doi.org/10.25663/brainlife.app.289)
+<h1 align="center">Compute Network Backbone</h1>
 
-# Compute network backbone
+<p align="center">
+  The statistically significant backbone of a weighted structural or functional brain network, extracted with the disparity filter.
+</p>
+
+<p align="center">
+  <a href="https://github.com/brainlife/abcd-spec"><img src="https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg" alt="ABCD Spec v1.1"></a>
+  <a href="https://doi.org/10.25663/brainlife.app.665"><img src="https://img.shields.io/badge/Brainlife-brainlife.app.665-blue.svg" alt="Run on brainlife.io"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-lightgrey.svg" alt="MIT license"></a>
+</p>
+
+## 🧠 At a glance
 
 <!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
 
-**Extracts the backbone of a weighted structural or functional connectivity network with the disparity filter (Serrano et al. 2009) using networkx and igraph, keeping only statistically significant edges.**
+> **Extracts the backbone of a weighted structural or functional connectivity network with the disparity filter (Serrano et al. 2009) using networkx and igraph, keeping only statistically significant edges.**
 
 Loads the first network from a JGF network file, computes a disparity-filter significance score (alpha) for every weighted edge and keeps edges whose alpha is below the alpha parameter, saving the backbone as output/network.json.gz. Use it to sparsify dense connectivity matrices before network analysis; edges at nodes with a single connection never pass the cut in the undirected case.
 
-Run it on brainlife.io: [https://doi.org/10.25663/brainlife.app.665](https://doi.org/10.25663/brainlife.app.665)
+| | |
+|---|---|
+| 📥 **Inputs** | `generic/network` |
+| 📤 **Outputs** | `generic/network` |
+| 🐳 **Container** | `brainlife/python-networks` |
+| ⚙️ **Resources** | 1 CPUs |
+| 🔗 **Run it** | [doi.org/10.25663/brainlife.app.665](https://doi.org/10.25663/brainlife.app.665) |
+
+#### 📥 Inputs
 
 | Input | Datatype | Required | Description |
 |---|---|---|---|
 | `network` | `generic/network` | yes | Weighted network in JGF format (network.json.gz); only the first network in the file is used. |
 
+#### 📤 Outputs
+
 | Output | Datatype | Description |
 |---|---|---|
 | `output` | `generic/network` | Backbone network (network.json.gz) containing only the edges that pass the disparity-filter threshold. |
+
+<details>
+<summary><b>⚙️ Parameters</b> (1)</summary>
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `alpha` | number | `0.05` | Disparity-filter significance threshold: an edge is kept when its alpha score is below this value (smaller keeps fewer edges). |
 
-Runtime: container `brainlife/python-networks`; 1 CPUs.
-
-Please cite:
-- Serrano MA, Boguna M, Vespignani A. Extracting the multiscale backbone of complex weighted networks. PNAS 106(16):6483-6488 (2009).
+</details>
 
 <!-- brainlife-app:end -->
 
-App to generate the backbone network from either a structural or functional network.
+## 🚀 Running the App
 
-### Authors
-- [Brad Caron](bacaron@utexas.edu)
+### ☁️ On brainlife.io
 
-### Contributors
-- [Filipi N. Silva](https://filipinascimento.github.io)
-- [Franco Pestilli](https://liberalarts.utexas.edu/psychology/faculty/fp4834)
+Open the App at [doi.org/10.25663/brainlife.app.665](https://doi.org/10.25663/brainlife.app.665), choose a `generic/network` dataset (a weighted network in JGF format) from your project, set `alpha` and press **Execute**. The result is a `generic/network` dataset tagged `backbone`, archived to your project for further network analysis.
 
+The App:
 
-### Funding Acknowledgement
-brainlife.io is publicly funded and for the sustainability of the project it is helpful to Acknowledge the use of the platform. We kindly ask that you acknowledge the funding below in your publications and code reusing this code.
+1. loads the first network in the JGF file (`network.json.gz`) and converts it to a NetworkX graph;
+2. computes the disparity-filter significance score (alpha) of every weighted edge (Serrano et al. 2009);
+3. keeps only edges whose alpha is below the `alpha` threshold (default `0.05`; smaller values keep fewer edges);
+4. saves the backbone back to JGF.
 
-[![NSF-BCS-1734853](https://img.shields.io/badge/NSF_BCS-1734853-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1734853)
-[![NSF-BCS-1636893](https://img.shields.io/badge/NSF_BCS-1636893-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1636893)
-[![NSF-ACI-1916518](https://img.shields.io/badge/NSF_ACI-1916518-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1916518)
-[![NSF-IIS-1912270](https://img.shields.io/badge/NSF_IIS-1912270-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1912270)
-[![NIH-NIBIB-R01EB029272](https://img.shields.io/badge/NIH_NIBIB-R01EB029272-green.svg)](https://grantome.com/grant/NIH/R01-EB029272-01)
+The disparity-filter code is adapted from [aekpalakorn/python-backbone-network](https://github.com/aekpalakorn/python-backbone-network).
 
+### 💻 Locally
 
-### Citations
-1. Avesani, P., McPherson, B., Hayashi, S. et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. Sci Data 6, 69 (2019). [https://doi.org/10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y)
+You need [Singularity/Apptainer](https://apptainer.org/). Python, NetworkX, igraph, [jgf](https://pypi.org/project/jgf/) and tqdm run inside the `brainlife/python-networks` container.
 
-2. Bassett, Danielle S., and Olaf Sporns. "Network neuroscience." Nature neuroscience 20, no. 3 (2017): 353. [https://doi.org/10.1038/nn.4502](https://doi.org/10.1038/nn.4502)
+1. Clone this repository and check out the branch brainlife.io runs: `git checkout v1.0`.
+2. Create `config.json` with the path to your network and the threshold:
 
-3. M. A. Serrano et al. (2009) Extracting the Multiscale Backbone of Complex Weighted Networks. PNAS, 106:16, pp. 6483-6488. [https://doi.org/10.1073/pnas.0808904106](https://doi.org/10.1073/pnas.0808904106)
+   ```json
+   {
+       "network": "/input/network/network.json.gz",
+       "alpha": 0.05
+   }
+   ```
 
-## Running the App
+3. Run the App:
 
-### On Brainlife.io
+   ```bash
+   ./main
+   ```
 
-You can submit this App online at [https://doi.org/10.25663/brainlife.app.289](https://doi.org/10.25663/brainlife.app.289) via the "Execute" tab.
+### 🧪 Sample data
 
-### Running Locally (on your machine)
-
-1. git clone this repo
-
-2. Inside the cloned directory, create `config.json` with something like the following content with paths to your input files.
-
-```json
-{
-    "network": "/input/network.json.gz",
-    "parc": 0.05
-}
-```
-
-3. Launch the App by executing 'main'
+Download sample datasets from brainlife.io with the [brainlife CLI](https://github.com/brainlife/cli):
 
 ```bash
-./main
-```
-
-The `filsilva/cxnetwork` ( [https://github.com/filipinascimento/cxnetworks-docker](https://github.com/filipinascimento/cxnetworks-docker) ) docker image is being used.
-
-### Sample Datasets
-
-You can download sample datasets from Brainlife using [Brainlife CLI](https://github.com/brain-life/cli).
-
-```
 npm install -g brainlife
 bl login
 mkdir input
-bl dataset download
+bl dataset download <dataset-id>
 ```
 
-## Output
+## 📦 Outputs
 
-The main output of this App is a raw datatype containing all of the matrices generated, individual conmat dataytpes for count, length, density, and denlen, and a networkneuro datatypes for visualization.
+```text
+output/
+└── network.json.gz   backbone network (JGF) with only the edges that pass the alpha threshold
+```
 
-#### Product.json
+## 🩺 Troubleshooting
 
-The secondary output of this app is `product.json`. This file allows web interfaces, DB and API calls on the results of the processing.
+- **Nodes lose all their edges**: in undirected networks, edges of nodes with a single connection never receive an alpha score and are dropped. Raise `alpha` to keep more of the network.
+- **Only part of a multi-network file is processed**: the App uses only the first network in the JGF file.
 
-### Dependencies
+## 📚 Citing
 
-This App only requires [singularity](https://www.sylabs.io/singularity/) to run. If you don't have singularity, you will need to install following dependencies.   
+> [!TIP]
+> If you use this App in your work, please cite the App, the software it builds on and brainlife.io (below). GitHub's **Cite this repository** button gives the App citation in APA and BibTeX.
 
-- Python3: https://www.python.org/downloads/
-- igraph: https://igraph.org/python/
-- jgf: https://pypi.org/project/jgf/
-- tqdm: https://tqdm.github.io/
+- Serrano MA, Boguñá M, Vespignani A. Extracting the multiscale backbone of complex weighted networks. *PNAS* 106(16):6483–6488 (2009). [doi:10.1073/pnas.0808904106](https://doi.org/10.1073/pnas.0808904106)
+- Bassett DS, Sporns O. Network neuroscience. *Nature Neuroscience* 20(3):353 (2017). [doi:10.1038/nn.4502](https://doi.org/10.1038/nn.4502)
+- Compute Network Backbone. brainlife.io App. [doi:10.25663/brainlife.app.665](https://doi.org/10.25663/brainlife.app.665)
+- Serrano MA, Boguna M, Vespignani A. Extracting the multiscale backbone of complex weighted networks. PNAS 106(16):6483-6488 (2009).
+- Hayashi S, Caron BA, Heinsfeld AS, et al. brainlife.io: a decentralized and open-source cloud platform to support neuroscience research. *Nature Methods* 21:809–813 (2024). [doi:10.1038/s41592-024-02237-2](https://doi.org/10.1038/s41592-024-02237-2)
+- Avesani P, McPherson B, Hayashi S, et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. *Scientific Data* 6:69 (2019). [doi:10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y)
 
-#### MIT Copyright (c) 2020 brainlife.io The University of Texas at Austin and Indiana University
+## 👥 Authors
+
+- Brad Caron
+
+**Contributors:** [Filipi N. Silva](https://filipinascimento.github.io), Franco Pestilli
+
+## 💰 Funding
+
+[![Wellcome-226486/Z/22/Z](https://img.shields.io/badge/Wellcome-226486%2FZ%2F22%2FZ-purple.svg)](https://wellcome.org/)
+[![NIH-NINDS-U24NS140384](https://img.shields.io/badge/NIH_NINDS-U24NS140384-green.svg)](https://reporter.nih.gov/project-details/11261037)
+[![NIH-NINDS-UM1NS132207](https://img.shields.io/badge/NIH_NINDS-UM1NS132207-green.svg)](https://reporter.nih.gov/project-details/11411328)
+[![NIH-NIBIB-R01EB029272](https://img.shields.io/badge/NIH_NIBIB-R01EB029272-green.svg)](https://reporter.nih.gov/project-details/10262925)
+[![NIH-NIBIB-R01EB030896](https://img.shields.io/badge/NIH_NIBIB-R01EB030896-green.svg)](https://reporter.nih.gov/project-details/10428625)
+[![NIH-NIMH-R01MH126699](https://img.shields.io/badge/NIH_NIMH-R01MH126699-green.svg)](https://reporter.nih.gov/project-details/10460628)
+[![NIH-NIDCD-R01DC020088](https://img.shields.io/badge/NIH_NIDCD-R01DC020088-green.svg)](https://reporter.nih.gov/project-details/11140284)
+[![NSF-BCS-1734853](https://img.shields.io/badge/NSF_BCS-1734853-blue.svg)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1734853)
+[![NSF-BCS-2203524](https://img.shields.io/badge/NSF_BCS-2203524-blue.svg)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2203524)
+[![NSF-IIS-1636893](https://img.shields.io/badge/NSF_IIS-1636893-blue.svg)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1636893)
+[![NSF-OAC-2148729](https://img.shields.io/badge/NSF_OAC-2148729-blue.svg)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2148729)
+[![NSF-IIS-1912270](https://img.shields.io/badge/NSF_IIS-1912270-blue.svg)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1912270)
+[![NSF-IIS-2148700](https://img.shields.io/badge/NSF_IIS-2148700-blue.svg)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2148700)
+[![NSF-OAC-1916518](https://img.shields.io/badge/NSF_OAC-1916518-blue.svg)](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1916518)
+
+<sub>brainlife.io is publicly funded, and acknowledging that support helps keep it running. This App was developed with support from Wellcome, the U.S. National Institutes of Health (including the BRAIN Initiative BRAIN CONNECTS program: The Axonal Projectome EXchange, U24NS140384, and the Center for Mesoscale Connectomics, UM1NS132207) and the U.S. National Science Foundation.</sub>
+
+## ⚖️ License
+
+[MIT](LICENSE).
